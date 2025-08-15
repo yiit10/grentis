@@ -18,7 +18,8 @@ import numpy as np
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from bbflex_claude import run_simulation_flex_incremental
-
+import smtplib
+from email.mime.text import MIMEText
 
 
 
@@ -88,8 +89,38 @@ async def contact_form(
     company: str = Form(...),
     message: str = Form(...)
 ):
-    print(f"Yeni iletişim formu:\nAd: {name}\nE-posta: {email}\nŞirket: {company}\nMesaj: {message}")
-    # İleride burayı DB kayıt, email gönderimi, webhook vb. için kullanabiliriz
+    # Environment değişkenlerini oku
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.office365.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER = os.getenv("SMTP_USER")
+    SMTP_PASS = os.getenv("SMTP_PASS")
+    MAIL_TO   = os.getenv("MAIL_TO", SMTP_USER)
+
+    # Mail gövdesi
+    body = (
+        f"Yeni iletişim formu gönderimi:\n\n"
+        f"İsim: {name}\n"
+        f"E-posta: {email}\n"
+        f"Şirket: {company}\n"
+        f"Mesaj:\n{message}\n"
+    )
+
+    msg = MIMEText(body, _charset="utf-8")
+    msg["Subject"] = "Grentis | Yeni İletişim Formu"
+    msg["From"] = SMTP_USER
+    msg["To"] = MAIL_TO
+    msg["Reply-To"] = email
+
+    try:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(SMTP_USER, [MAIL_TO], msg.as_string())
+        print("✅ E-posta başarıyla gönderildi.")
+    except Exception as e:
+        print(f"❌ E-posta gönderilemedi: {e}")
+
+    # Gönderim sonrası ana sayfaya yönlendir
     return RedirectResponse(url="/", status_code=303)
 
 # 🔥 Tüm tarihsel veri tiplerini string'e çevir
