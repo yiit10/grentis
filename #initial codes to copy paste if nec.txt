@@ -1,0 +1,3 @@
+#initial codes to copy paste if necessary
+cd Documents\BatteryBrain\batterybrain_web
+uvicorn main:app --reload

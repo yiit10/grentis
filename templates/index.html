@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block title %}Grentis | Battery Brain ile Enerjiyi Yeniden Düşün{% endblock %}
+{% block body_classes %}landing-page-body{% endblock %}
+
+{% block content %}
+
+<section class="relative overflow-hidden text-white">
+<!-- Video background -->
+<div class="absolute inset-0 w-full h-full">
+  <iframe src="https://www.youtube.com/embed/lE45oXmFPGo?rel=0&autoplay=1&mute=1&loop=1&playlist=lE45oXmFPGo"
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          class="w-full h-full"
+          style="object-fit: cover;">
+  </iframe>
+</div>
+
+  <!-- Overlay for readability -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
+    <!-- Sol: Metin -->
+    <div class="relative z-10">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+        Depolamalı santraller için <span class="text-amber-400">otonom karar motoru</span>.
+      </h1>
+
+      <p class="mt-6 text-lg md:text-xl text-white/90">
+    Yeni Nesil Enerji Zekası ile hep bir adım önde.<br>
+    Planlayın, izleyin, kazanın – hepsi tek platformda.
+  </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <a href="#contact-form"
+           class="inline-flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition">
+          Demo Al
+        </a>
+        <a href="/login"
+           class="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl ring-1 ring-white/20 transition">
+          Giriş Yap
+        </a>
+      </div>
+
+      <!-- Hızlı güven chip'leri -->
+      <div class="mt-8 flex flex-wrap gap-3 text-sm text-white/90">
+        <span class="bg-white/10 backdrop-blur px-3 py-1 rounded-full ring-1 ring-white/20">Daha Hızlı ROI</span>
+        <span class="bg-white/10 backdrop-blur px-3 py-1 rounded-full ring-1 ring-white/20">Azaltılmış Risk</span>
+        <span class="bg-white/10 backdrop-blur px-3 py-1 rounded-full ring-1 ring-white/20">Uzun Vadeli Strateji</span>
+        <span class="bg-white/10 backdrop-blur px-3 py-1 rounded-full ring-1 ring-white/20">Rakip Analizi</span>
+      </div>
+    </div>
+
+</section>
+
+
+<!-- ÜÇLÜ DEĞER FAYDASI -->
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <h2 class="sr-only">Üçlü Değer Faydası</h2>
+
+    <div class="grid gap-12 md:grid-cols-3">
+      <!-- Gelir artışı -->
+      <article class="flex flex-col items-center">
+        <img
+          src="/static/images/revenue_growth.png"
+          alt="Gelir artışını gösteren yukarı yönlü grafik"
+          class="w-48 h-48 md:w-64 md:h-64 mb-4 object-contain"
+          loading="lazy"
+        />
+        <!-- TODO: ikon: upward graph, yeşil ve mavi tonlar -->
+        <h3 class="text-xl font-semibold mb-2">Pazardan Her Zaman Bir Adım Önde</h3>
+        <p class="text-gray-600">
+          Gelişmiş tahmin ve optimizasyon algoritmalarımız; üretim, fiyat ve rakiplerinizin verilerini anlık olarak analiz ederek en kârlı stratejileri belirler.
+        </p>
+      </article>
+
+      <!-- Dengesizlik azaltma -->
+      <article class="flex flex-col items-center">
+        <img
+          src="/static/images/dengesizlik.png"
+          alt="Dengesizlik cezasını azaltan hedef odaklı grafik"
+          class="w-48 h-48 md:w-64 md:h-64 mb-4 object-contain"
+          loading="lazy"
+        />
+        <!-- TODO: ikon: sapma azaltan grafik / hedef -->
+        <h3 class="text-xl font-semibold mb-2">Operasyonel ve Finansal Güvence</h3>
+        <p class="text-gray-600">
+          Gerçek zamanlı tahmin güncellemeleriyle saatlik kararları dinamik olarak yeniden planlıyor, öngörülebilir nakit akışı sağlıyoruz.
+        </p>
+      </article>
+
+      <!-- ROI -->
+      <article class="flex flex-col items-center">
+        <img
+          src="/static/images/roi.png"
+          alt="Saat ve para sembolleriyle yatırım geri dönüşü"
+          class="w-48 h-48 md:w-64 md:h-64 mb-4 object-contain"
+          loading="lazy"
+        />
+        <!-- TODO: ikon: saat + para sembolleri -->
+        <h3 class="text-xl font-semibold mb-2">Efektif Batarya Kullanımı, Hızlı ROI </h3>
+        <p class="text-gray-600">
+          İleri düzey dinamik optimizasyonlarımız, batarya operasyonlarınızı maksimum verimle çalıştırarak yatırımınızın dönüşünü hızlandırır.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- MODÜl SEGMENTLERİ -->
+<section class="py-24 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Battery Brain ile Uyumlu Modülünüzü Seçin</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Core -->
+      <div class="bg-white rounded-xl p-8 shadow hover:shadow-lg transition text-center">
+        <img src="/static/images/core.png" class="w-64 h-64 mx-auto mb-4" alt="Battery Brain Core">
+        <!-- TODO: Basitlik, setup, otomatize başlangıç ikon -->
+        <h3 class="text-2xl font-semibold text-emerald-700 mb-2">Battery Brain Core</h3>
+        <p class="text-gray-600 mb-4">
+          Temel düzeyde otomasyonla tanışın. piyasa teklifleri, üretim planlaması ve ilk optimizasyon adımlarınız için idealdir.
+        </p>
+        <p class="text-sm text-gray-500">Basit kurulum, günlük veri ve karar destek mekanizması.</p>
+      </div>
+
+      <!-- Flex -->
+      <div class="bg-white rounded-xl p-8 shadow hover:shadow-lg transition text-center">
+        <img src="/static/images/flex.png" class="w-64 h-64 mx-auto mb-4" alt="Battery Brain Flex">
+        <!-- TODO: Adaptif karar, saatlik güncelleme temalı görsel -->
+        <h3 class="text-2xl font-semibold text-sky-700 mb-2">Battery Brain Flex</h3>
+        <p class="text-gray-600 mb-4">
+          Gerçek zamanlı veriye adapte olabilen ileri düzey dinamik karar motoru, stratejinizi 7/24 güncel tutar.
+        </p>
+        <p class="text-sm text-gray-500">Rakip analizi, anlık veri ve akıllı stratejiler.</p>
+      </div>
+
+      <!-- Hive -->
+      <div class="bg-white rounded-xl p-8 shadow hover:shadow-lg transition text-center">
+        <img src="/static/images/hive.png" class="w-64 h-64 mx-auto mb-4" alt="Battery Brain Hive">
+        <!-- TODO: Portföy kontrolü, merkezi karar yapısı, çoklu santral ikonları -->
+        <h3 class="text-2xl font-semibold text-amber-700 mb-2">Battery Brain Hive</h3>
+        <p class="text-gray-600 mb-4">
+          Çoklu santral kontrolü ile portföyünüze değer katan yeni nesil enerji zekası.
+        </p>
+        <p class="text-sm text-gray-500">Tek ekranda tüm varlıklarınız için tam yetkili zeka.</p>
+      </div>
+
+    </div>
+
+    <div class="mt-12 text-center">
+      <p class="text-lg text-gray-700 mb-4 font-medium">Hangi modülün sizin için ideal olduğuna birlikte karar verelim.</p>
+      <a href="#contact-form" class="inline-block bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 shadow transition">
+        Ekibimizle Bağlantı Kurun
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- TEKNİK ALTYAPI FARKIMIZ / BİZ KİMİZ -->
+<section class="bg-white py-20">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-start">
+
+    <!-- Sol: Biz kimiz -->
+    <div class="relative">
+      <h2 class="text-3xl font-bold text-gray-900 flex items-center gap-2">
+        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m0-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Neden <span class="text-emerald-600">Grentis?</span>
+      </h2>
+      <div class="w-16 h-1 bg-emerald-500 mt-2 rounded-full"></div>
+
+      <p class="mt-6 text-gray-600 leading-relaxed">
+        Sektördeki <span class="font-semibold text-gray-900">engin tecrübemiz</span> ve
+        amiral ürünümüz <span class="font-semibold text-emerald-600">Battery Brain</span>,
+        depolamalı RES ve GES'lerinizi <span class="font-semibold">Yeni Nesil Enerji Zekâsı</span> ile
+        bir sonraki seviyeye taşır.
+      </p>
+
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        Santral, şebeke ve piyasa verilerini tek platformda birleştirerek
+        <span class="font-semibold text-gray-900">kazanan stratejiyi</span> sunar.
+      </p>
+
+      <!-- Hızlı güven ögeleri -->
+      <div class="mt-6 grid sm:grid-cols-2 gap-4">
+        <div class="rounded-xl border border-gray-200 p-4 text-center">
+          <p class="text-2xl font-bold text-emerald-700">%14↑</p>
+          <p class="text-gray-600 text-sm">Net gelir artışı*</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 p-4 text-center">
+          <p class="text-2xl font-bold text-emerald-700">%38↓</p>
+          <p class="text-gray-600 text-sm">Dengesizlik cezasında azalma*</p>
+        </div>
+      </div>
+
+      <p class="mt-3 text-xs text-gray-400">
+        * Pilot çalışmalardaki tipik sonuçlara dayalıdır; santrale ve ürüne göre değişebilir.
+      </p>
+    </div>
+    <!-- /Sol -->
+
+    <!-- Sağ: Teknik altyapı farkımız -->
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-900">Teknik altyapı farkımız</h3>
+      <ul class="mt-6 space-y-4">
+        <li class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">1</span>
+          <p class="text-gray-700">
+            <span class="font-medium">Gerçek zamanlı veri füzyonu:</span> EPİAŞ, hava, şebeke ve santral telemetrisi tek akışta.
+          </p>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">2</span>
+          <p class="text-gray-700">
+            <span class="font-medium"> Stokastik Optimizasyon:</span> Piyasa dinamiklerine uygun, belirsizliği modelleyen optimizasyon modellerimiz risk altında en yüksek kâr için dizayn edildi.
+          </p>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">3</span>
+          <p class="text-gray-700">
+            <span class="font-medium">7/24 Güncellenen Stratejiler:</span> Piyasa uyur, Battery Brain uyumaz; volatil piyasada otomatik düzeltme ve risk minimizasyonu sağlar.
+          </p>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">4</span>
+          <p class="text-gray-700">
+            <span class="font-medium">Rakip Analizi:</span> Diğer oyuncuların stratejilerini tahmin ve analiz eder, size en doğru stratejiyi belirler.
+          </p>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">5</span>
+          <p class="text-gray-700">
+            <span class="font-medium">Portföy düzeyi kontrol:</span> Depolamasız santrallerinizin risklerini minimize eder, portföyünüzü dengeler.
+          </p>
+        </li>
+      </ul>
+
+      <!-- Küçük CTA -->
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#contact-form"
+           class="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-lg shadow transition">
+          Demo talep et
+        </a>
+      </div>
+    </div>
+    <!-- /Sağ -->
+
+  </div>
+</section>
+
+
+
+<!-- FORM SECTION -->
+<section id="contact-form" class="bg-white py-20">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-6 text-gray-800">Birlikte Daha Akıllı Bir Gelecek Tasarlayalım</h2>
+    <p class="mb-8 text-gray-600 text-lg">Formu doldurun, santralinizin potansiyelini bir üst seviyeye taşıyalım.</p>
+
+    <form action="/contact" method="POST" class="grid gap-6 text-left">
+      <input type="text" name="name" placeholder="Adınız Soyadınız" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500">
+      <input type="email" name="email" placeholder="E-posta Adresiniz" required class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500">
+      <input type="text" name="company" placeholder="Şirket Adı" class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500">
+      <textarea name="message" rows="4" placeholder="Mesajınız" class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500"></textarea>
+      <button type="submit" class="bg-emerald-600 text-white font-semibold py-3 rounded-lg hover:bg-emerald-700 shadow">
+        Gönder
+      </button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

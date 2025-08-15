@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% block title %}Optimizasyon - Battery Brain{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 gap-6">
+
+    <!-- 🔧 Üst Bilgi: Tahmin Kaynağı + Özet Bilgiler -->
+    <div class="bg-white border rounded-2xl shadow p-6 flex flex-col lg:flex-row justify-between gap-6">
+
+    <!-- 🔘 Tahmin Seçimi -->
+    <div class="flex flex-col gap-2">
+        <h2 class="text-lg font-semibold text-black">Şuna göre optimize et:</h2>
+        <div class="flex gap-4">
+            <!-- ☀️ Meteomatics -->
+            <form method="POST" action="/run-optimization">
+                <input type="hidden" name="source" value="meteomatics">
+                <button type="submit"
+                        class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700
+                               {% if active_forecast == 'meteomatics' %}ring-2 ring-offset-2 ring-blue-400{% endif %}">
+                    ☀️ Meteomatics Tahmini
+                </button>
+            </form>
+
+            <!-- 🌤 Meteologica -->
+            <form method="POST" action="/run-optimization">
+                <input type="hidden" name="source" value="meteologica">
+                <button type="submit"
+                        class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700
+                               {% if active_forecast == 'meteologica' %}ring-2 ring-offset-2 ring-green-400{% endif %}">
+                    🌤 Meteologica Tahmini
+                </button>
+            </form>
+
+            <!-- ✍️ Özel -->
+            <form method="POST" action="/run-optimization">
+                <input type="hidden" name="source" value="custom">
+                <button type="submit"
+                        class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700
+                               {% if active_forecast == 'custom' %}ring-2 ring-offset-2 ring-red-400{% endif %}">
+                    ✍️ Özel Tahmin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ⚙️ Operasyonel Bilgiler -->
+    <div class="flex-1 grid grid-cols-2 gap-6 mt-4 lg:mt-0 lg:grid-cols-3 text-sm text-gray-800">
+        <div class="space-y-1">
+            <p class="text-gray-500">Anlık SoC</p>
+            <p class="text-xl font-bold text-blue-700">{{ initial_soc }}</p>
+        </div>
+        <div class="space-y-1">
+            <p class="text-gray-500">Santral Durumu</p>
+            <p class="text-xl font-bold text-green-700">{{ plant_status }}</p>
+        </div>
+        <div class="space-y-1">
+            <p class="text-gray-500">Kapasite Kullanımı</p>
+            <p class="text-xl font-bold text-orange-600">{{ capacity_utilization }}</p>
+        </div>
+    </div>
+
+    <!-- 💰 Beklenen Gelir -->
+    <div class="text-right mt-6 lg:mt-0">
+        <p class="text-sm text-gray-500">Beklenen 48 Saatlik Gelir</p>
+        <p class="text-3xl font-extrabold text-green-600">
+            {{ "{:,.2f}".format(expected_revenue).replace(",", "X").replace(".", ",").replace("X", ".") }} ₺
+        </p>
+        <p class="text-xs text-gray-400 mt-1">
+    Optimizasyon: {{ horizon_start.strftime('%Y-%m-%d %H:%M') }} itibariyle ({{ active_forecast | capitalize }} verisiyle)
+        </p>
+
+    <!-- 🔘 Default Strateji -->
+    <div class="text-sm text-gray-500 pt-2">
+        <p>◽ Default Strateji Beklenen Geliri:</p>
+        <p class="text-xl font-semibold text-gray-800">
+            {{ default_strategy_revenue | currencyformat }}
+        </p>
+    </div>
+
+    <!-- 🧠 Özel Optimizasyon Butonu + Gelir -->
+    <div class="mt-4">
+      <button onclick="openCustomOptimizationModal(window.defaultStrategyData)"
+              class="px-4 py-2 rounded bg-amber-600 text-white hover:bg-amber-700 text-sm shadow w-full">
+        🧠 Kendi Optimizasyonunu Oluştur
+      </button>
+
+      <!-- 💡 Özel Strateji Beklenen Geliri (JS ile doldurulacak) -->
+      <div id="customRevenueDisplay" class="text-sm text-gray-600 mt-2 hidden">
+        <p class="text-xs">💡 Özel Optimizasyondan Beklenen Gelir:</p>
+        <p class="text-lg font-semibold text-gray-800" id="customRevenueValue"></p>
+      </div>
+    </div>
+
+
+
+    </div>
+
+    </div>
+
+    <!-- 📊 KGÜP Dağılımı Grafiği -->
+    <div class="bg-white border rounded-2xl shadow p-6 mt-6">
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4">
+            <h2 class="text-lg font-semibold text-black">Battery Brain Core - Optimize KGÜP ve Batarya Kullanımı</h2>
+
+            <!-- 🚀 Aksiyon Butonları -->
+            <div class="flex gap-4 mt-4 lg:mt-0">
+                <!-- EPİAŞ Butonu -->
+                <button id="sendToEpiasBtn"
+                        class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed relative group"
+                        title="Bu opsiyon sadece 10:00–11:00 arası kullanılabilir">
+                    📤 EPİAŞ'a Gönder
+                    <span class="absolute hidden group-hover:block text-xs bg-black text-white rounded px-2 py-1 top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap z-10">
+                        Bu opsiyon sadece 10:00–11:00 arası kullanılabilir
+                    </span>
+                </button>
+
+                <!-- CSV Butonu -->
+                <button class="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700">
+                    📄 CSV'ye Yazdır
+                </button>
+            </div>
+        </div>
+
+        <canvas id="qCommittedStackedChart"></canvas>
+    </div>
+
+    <!-- 📊 Üretim Kullanımı Grafiği -->
+    <div class="bg-white border rounded-2xl shadow p-6 mt-6">
+        <h2 class="text-lg font-semibold text-black mb-4">Battery Brain Core - Optimize Üretim Kullanımı</h2>
+        <canvas id="productionUtilizationChart"></canvas>
+    </div>
+
+    <!-- 🔋 Optimize Batarya Kullanımı Grafiği -->
+    <div class="bg-white border rounded-2xl shadow p-6 mt-6">
+        <h2 class="text-lg font-semibold text-black mb-4">Battery Brain Core - Optimize Batarya Kullanımı</h2>
+        <canvas id="batteryUsageChart"></canvas>
+    </div>
+
+</div>
+
+<!-- 📈 Grafik Scriptleri -->
+<script>
+const qCommittedStacked = {{ q_committed_stacked_data | safe }};
+new Chart(document.getElementById('qCommittedStackedChart'), {
+    type: 'bar',
+    data: {
+        labels: qCommittedStacked.labels,
+        datasets: [
+            {
+                label: 'Santral Üretimi (MWh)',
+                data: qCommittedStacked.da_prod,
+                backgroundColor: '#3B82F6'
+            },
+            {
+                label: 'Batarya Kullanımı (MWh)',
+                data: qCommittedStacked.da_battery_use,
+                backgroundColor: '#10B981'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: { mode: 'index', intersect: false },
+            legend: { position: 'top' }
+        },
+        scales: {
+            x: { stacked: true },
+            y: { stacked: true, title: { display: true, text: 'MWh' } }
+        }
+    }
+});
+
+const prodUsage = {{ production_usage_data | safe }};
+new Chart(document.getElementById('productionUtilizationChart'), {
+    type: 'bar',
+    data: {
+        labels: prodUsage.labels,
+        datasets: [
+            {
+                label: 'KGÜP',
+                data: prodUsage.da_prod,
+                backgroundColor: '#3B82F6',
+                stack: 'usage'
+            },
+            {
+                label: 'GİP Satış',
+                data: prodUsage.id_prod,
+                backgroundColor: '#10B981',
+                stack: 'usage'
+            },
+            {
+                label: 'Şarj',
+                data: prodUsage.charge,
+                backgroundColor: '#F59E0B',
+                stack: 'usage'
+            },
+            {
+                label: 'Tahmini Üretim',
+                data: prodUsage.forecast,
+                type: 'line',
+                borderColor: '#EF4444',
+                fill: false,
+                tension: 0.4,
+                yAxisID: 'y'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: { mode: 'index', intersect: false },
+            legend: { position: 'top' }
+        },
+        scales: {
+            x: { stacked: true },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                title: { display: true, text: 'MWh' }
+            }
+        }
+    }
+});
+
+const batteryUsage = {{ battery_usage_data | safe }};
+new Chart(document.getElementById('batteryUsageChart'), {
+    type: 'bar',
+    data: {
+        labels: batteryUsage.labels,
+        datasets: [
+            {
+                label: 'Şarj (MWh)',
+                data: batteryUsage.charge,
+                backgroundColor: '#60A5FA',
+                stack: 'bat'
+            },
+            {
+                label: 'KGÜP\'e Boşaltım (MWh)',
+                data: batteryUsage.d_da_bat.map(x => -x), // negatif gösterim için
+                backgroundColor: '#34D399',
+                stack: 'bat'
+            },
+            {
+                label: 'GİP\'e Boşaltım (MWh)',
+                data: batteryUsage.d_id_bat.map(x => -x),
+                backgroundColor: '#FBBF24',
+                stack: 'bat'
+            },
+            {
+                label: 'SoC (%)',
+                data: batteryUsage.soc,
+                type: 'line',
+                borderColor: '#EF4444',
+                backgroundColor: 'transparent',
+                yAxisID: 'y1',
+                tension: 0.4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            legend: { position: 'top' }
+        },
+        scales: {
+            x: { stacked: true },
+            y: {
+                stacked: true,
+                beginAtZero: false,
+                min: -50,
+                max: 50,
+                title: { display: true, text: 'Enerji (MWh)' }
+            },
+            y1: {
+                position: 'right',
+                min: -50,
+                max: 50,
+                title: { display: true, text: 'SoC (MWh)' },
+                grid: { drawOnChartArea: false }
+            }
+        }
+    }
+});
+</script>
+
+<script>
+    const epiasBtn = document.getElementById("sendToEpiasBtn");
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour < 10 || hour >= 11) {
+        epiasBtn.disabled = true;
+    }
+</script>
+
+<script>
+  window.defaultStrategyData = {{ custom_strategy_json | safe }};
+  window.batteryParams = {{ battery_params | tojson }};
+</script>
+
+<!-- 🧠 Kendi Optimizasyonunu Oluştur Modalı -->
+<div id="customOptimizationModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-xl shadow-xl w-[90%] max-w-6xl p-6 overflow-y-auto max-h-[90vh]">
+    <h2 class="text-xl font-bold mb-4">🧠 Kendi Optimizasyonunu Oluştur</h2>
+    <table class="min-w-full text-sm border">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-2">Saat</th>
+          <th class="border px-2">GÖP</th>
+          <th class="border px-2">GİP</th>
+          <th class="border px-2">SMF</th>
+          <th class="border px-2">Tahmini Üretim</th>
+          <th class="border px-2">SoC</th>
+          <th class="border px-2">KGÜP (Prod)</th>
+          <th class="border px-2">GİP (Prod)</th>
+          <th class="border px-2">Şarj</th>
+          <th class="border px-2">KGÜP (Bat)</th>
+          <th class="border px-2">GİP (Bat)</th>
+        </tr>
+      </thead>
+      <tbody id="customOptTableBody">
+        <!-- Satırlar JS ile dolacak -->
+      </tbody>
+    </table>
+
+    <div class="flex justify-end mt-4 gap-2">
+      <button onclick="closeModal()" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">İptal</button>
+      <button onclick="submitCustomOptimization()" class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let soc = 50.0;
+const socMin = window.batteryParams.soc_min;
+const socMax = window.batteryParams.soc_max;
+const efficiency = window.batteryParams.efficiency;
+
+function recalculateSoc() {
+  const rows = Array.from(document.querySelectorAll("#customOptTableBody tr"));
+  let socLevel = soc;
+
+  rows.forEach((row, i) => {
+    const inputs = row.querySelectorAll("input");
+    const vals = {};
+    inputs.forEach(inp => {
+      vals[inp.dataset.col] = parseFloat(inp.value) || 0;
+    });
+
+    const bat_out = (vals.kgup_bat + vals.gip_bat) / efficiency;
+    const bat_in = vals.charge * efficiency;
+    socLevel = socLevel + bat_in - bat_out;
+
+    row.querySelector(".soc-cell").innerText = socLevel.toFixed(2);
+  });
+}
+
+
+function openCustomOptimizationModal(data) {
+  soc = 50.0;
+  const tbody = document.getElementById("customOptTableBody");
+  tbody.innerHTML = "";
+  data.forEach((row, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="border px-2">${row.datetime}</td>
+      <td class="border px-2">${row.da_price.toFixed(2)}</td>
+      <td class="border px-2">${row.id_price.toFixed(2)}</td>
+      <td class="border px-2">${row.smf.toFixed(2)}</td>
+      <td class="border px-2 text-right">${row.forecast.toFixed(2)}</td>
+      <td class="border px-2 soc-cell">${soc.toFixed(2)}</td>
+      <td class="border px-2"><input type="number" min="0" step="0.01" class="w-20 text-right" data-col="kgup_prod" data-i="${i}" value="${row.kgup_prod}"></td>
+      <td class="border px-2"><input type="number" min="0" step="0.01" class="w-20 text-right" data-col="gip_prod" data-i="${i}" value="${row.gip_prod}"></td>
+      <td class="border px-2"><input type="number" min="0" step="0.01" class="w-20 text-right" data-col="charge" data-i="${i}" value="${row.charge}"></td>
+      <td class="border px-2"><input type="number" min="0" step="0.01" class="w-20 text-right" data-col="kgup_bat" data-i="${i}" value="${row.kgup_bat}"></td>
+      <td class="border px-2"><input type="number" min="0" step="0.01" class="w-20 text-right" data-col="gip_bat" data-i="${i}" value="${row.gip_bat}"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // 👇 Bu satırları ekle!
+  tbody.querySelectorAll("input").forEach(inp => {
+    inp.addEventListener("input", recalculateSoc);
+  });
+
+  document.getElementById("customOptimizationModal").classList.remove("hidden");
+}
+
+
+function closeModal() {
+  document.getElementById("customOptimizationModal").classList.add("hidden");
+}
+
+function submitCustomOptimization() {
+    const rows = Array.from(document.querySelectorAll("#customOptTableBody tr"));
+    const data = [];
+    let socLevel = soc;
+    let isValid = true;
+    recalculateSoc();
+    rows.forEach((row, i) => {
+        const inputs = row.querySelectorAll("input");
+        const vals = {};
+        inputs.forEach(inp => {
+            vals[inp.dataset.col] = parseFloat(inp.value) || 0;
+        });
+
+        const total_prod = vals.kgup_prod + vals.gip_prod + vals.charge;
+        const forecast = parseFloat(row.children[4].innerText);
+        if (total_prod > forecast) {
+            isValid = false;
+            row.classList.add("bg-red-100");
+            return;
+        } else {
+            row.classList.remove("bg-red-100");
+        }
+
+        const bat_out = (vals.kgup_bat + vals.gip_bat) / efficiency;
+        const bat_in = vals.charge * efficiency;
+        socLevel = socLevel + bat_in - bat_out;
+        if (socLevel < socMin || socLevel > socMax) {
+            isValid = false;
+            row.classList.add("bg-yellow-100");
+        } else {
+            row.classList.remove("bg-yellow-100");
+        }
+
+        data.push({
+            datetime: row.children[0].innerText,
+            da_price: parseFloat(row.children[1].innerText),
+            id_price: parseFloat(row.children[2].innerText),
+            smf: parseFloat(row.children[3].innerText),
+            forecast,
+            ...vals,
+            soc: socLevel
+        });
+    });
+
+    if (!isValid) {
+        alert(`Lütfen verilerinizi kontrol ediniz. Tahmini üretimi aşamazsınız ve SoC limitleri [${socMin}, ${socMax}] dahilinde kalmalı.`);
+        return;
+    }
+
+    fetch("/custom-strategy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log("📥 Geri dönen:", result);
+        if (result.status === "ok") {
+          document.querySelector("#customRevenueDisplay").classList.remove("hidden");
+          document.querySelector("#customRevenueValue").textContent = formatCurrency(result.revenue) + " ₺";
+          closeModal();
+        } else {
+          alert("Sunucu hatası: " + (result.message || JSON.stringify(result)));
+        }
+      })
+      .catch(err => {
+        console.error("❌ Fetch hatası:", err);
+        alert("Bir hata oluştu: " + err.message);
+      });
+
+}
+
+function formatCurrency(val) {
+  if (typeof val !== "number") return "-";
+  return val.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
+
+</script>
+
+
+{% endblock %}

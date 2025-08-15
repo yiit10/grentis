@@ -1,0 +1,474 @@
+{% extends "base.html" %}
+
+{% block title %}Performans Analizi - Battery Brain{% endblock %}
+
+{% block content %}
+
+<div class="flex gap-2 mb-4">
+  <button onclick="filterData('current')" class="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200">Geçerli Ay</button>
+  <button onclick="filterData('ytd')" class="px-4 py-2 rounded-lg bg-green-100 text-green-700 hover:bg-green-200">Yılbaşından Bu Yana</button>
+  <button onclick="filterData('all')" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">Uzun Vadeli</button>
+</div>
+
+<div class="bg-white border rounded-2xl shadow p-6 mt-6">
+  <h2 class="text-2xl font-semibold text-black mb-4">Geçmiş Optimizasyon Performansı</h2>
+
+  {% if performance_data|length == 0 %}
+    <p class="text-gray-500">Hiç veri bulunamadı. Lütfen simülasyon çalıştırınız.</p>
+  {% else %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <div class="bg-gray-50 p-4 rounded-xl shadow">
+        <h3 class="text-lg font-medium mb-2">Net Kar (₺)</h3> {# Başlığı daha genel yaptım #}
+        <canvas id="dailyProfitChart"></canvas>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-xl shadow">
+        <h3 class="text-lg font-medium mb-2">Batarya Kullanımı (Cycle)</h3> {# Başlığı daha genel yaptım #}
+        <canvas id="batteryCycleChart"></canvas>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-xl shadow col-span-1 lg:col-span-2">
+        <h3 class="text-lg font-medium mb-4">Finansal Özet</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <p class="text-gray-500">Toplam Net Kar</p>
+            <p class="text-green-600 font-semibold" id="totalNetProfit">₺...</p>
+          </div>
+          <div>
+            <p class="text-gray-500">Toplam Gelir</p>
+            <p class="text-blue-600 font-semibold" id="totalRevenue">₺...</p>
+          </div>
+          <div>
+            <p class="text-gray-500">Toplam Ceza</p>
+            <p class="text-red-500 font-semibold" id="totalPenalty">₺...</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  {% endif %}
+</div>
+
+<div class="bg-gray-50 p-4 rounded-xl shadow col-span-1 lg:col-span-2 mt-6">
+  <h3 class="text-lg font-medium mb-4">Optimizasyon vs Benchmark Karşılaştırması</h3>
+  <canvas id="comparisonChart"></canvas>
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm mt-6">
+  <div>
+    <p class="text-gray-500">💰Battery Brain Toplam Kar</p>
+    <p class="text-green-600 font-semibold" id="bbTotalProfit">₺...</p>
+    <p class="text-xs text-green-500">⚡ GÖP Geliri: <span id="bbDARevenue">₺...</span></p>
+    <p class="text-xs text-green-500">🚀 GİP Geliri: <span id="bbIDRevenue">₺...</span></p>
+    <p class="text-xs text-red-500">💸 GİP Gideri: <span id="bbIDCosts">₺...</span></p>
+    <p class="text-xs text-red-500">🛑 Ceza: <span id="bbPenalty">₺...</span></p>
+  </div>
+  <div>
+    <p class="text-gray-500">Benchmark Toplam Kar</p>
+    <p class="text-gray-700 font-semibold" id="bmTotalProfit">₺...</p>
+    <p class="text-xs text-green-500"> GÖP Geliri: <span id="bmDARevenue">₺...</span></p>
+    <p class="text-xs text-green-500"> GİP Geliri: <span id="bmIDRevenue">₺...</span></p>
+    <p class="text-xs text-red-500"> GİP Gideri: <span id="bmIDCosts">₺...</span></p>
+    <p class="text-xs text-red-500"> Ceza: <span id="bmPenalty">₺...</span></p>
+  </div>
+  <div>
+    <p class="text-gray-500">Kazanç Farkı</p>
+    <p class="text-blue-600 font-semibold" id="profitDifference">₺...</p>
+    <p class="text-blue-600 font-semibold" id="profitDifferencePercentage">(...%)</p>
+  </div>
+</div>
+
+<script>
+  const data = {{ performance_data | tojson }};
+  const monthlyMetrics = {{ monthly_metrics | tojson }}; // Battery Brain aylık verileri
+  const monthlyMetricsBenchmark = {{ monthly_metrics_benchmark | tojson }}; // Benchmark aylık verileri
+  const dailyMetrics = {{ daily_metrics | tojson }}; // Global günlük metrikler
+
+  // === Aylık Veriler İçin Global Tanımlar ===
+  const monthlyLabelsGlobal = monthlyMetrics.map(d => d.month);
+  const monthlyBBProfitsGlobal = monthlyMetrics.map(d => d.net_profit || 0);
+  const monthlyCyclesGlobal = monthlyMetrics.map(d =>
+    ((d.battery_cost || 0)) / (2 * 62) // Normalizasyon faktörü varsayıldı
+  );
+
+  // === Günlük Veriler İçin Global Tanımlar (Başlangıçta Hesaplanan) ===
+  const dailyDataAggregated = {}; // Günlük bazda kar ve cycle toplamak için
+  data.forEach(row => {
+    const date = (row.datetime || row.date || "").slice(0, 10);
+    if (!dailyDataAggregated[date]) {
+      dailyDataAggregated[date] = { net_profit: 0, total_cycle_normalized: 0 };
+    }
+    dailyDataAggregated[date].net_profit += (row.net_profit || 0) + (row.battery_cost || 0);
+    dailyDataAggregated[date].total_cycle_normalized += ((row.charge || 0) + (row.d_da_bat || 0) + (row.d_id_bat || 0)) / (2 * 62);
+  });
+
+  const dailyLabelsGlobal = Object.keys(dailyDataAggregated);
+  const dailyProfitsGlobal = dailyLabelsGlobal.map(date => dailyDataAggregated[date].net_profit);
+  const dailyCyclesGlobal = dailyLabelsGlobal.map(date => dailyDataAggregated[date].total_cycle_normalized);
+
+  const comparisonLabelsDaily = dailyMetrics.map(d => {
+    const date = new Date(d.date);
+    return date.toLocaleDateString('tr-TR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  });
+  const bbProfitsDaily = dailyMetrics.map(d => d.net_profit || 0);
+  const bmProfitsDaily = dailyMetrics.map(d => d.benchmark_profit || 0);
+  const gainsDaily = bbProfitsDaily.map((val, i) => {
+    const bench = bmProfitsDaily[i] || 0.0001;
+    return ((val - bench) / Math.abs(bench)) * 100;
+  });
+
+  // Chart Oluşturma Fonksiyonu (Yeniden çizmek yerine update etmek için referanslar)
+  let dailyProfitChart;
+  let batteryCycleChart;
+  let comparisonChart;
+
+  function createOrUpdateCharts(labels, profitData, cycleData, comparisonLabels, bbCompData, bmCompData, gainsCompData) {
+    // Günlük Net Kar Grafiği
+    if (dailyProfitChart) {
+      dailyProfitChart.data.labels = labels;
+      dailyProfitChart.data.datasets[0].data = profitData;
+      dailyProfitChart.update();
+    } else {
+      dailyProfitChart = new Chart(document.getElementById('dailyProfitChart'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Net Kar (₺)',
+            data: profitData,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Batarya Kullanımı (Cycle Sayısı)
+    if (batteryCycleChart) {
+      batteryCycleChart.data.labels = labels;
+      batteryCycleChart.data.datasets[0].data = cycleData;
+      batteryCycleChart.update();
+    } else {
+      batteryCycleChart = new Chart(document.getElementById('batteryCycleChart'), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Batarya Cycle',
+            data: cycleData,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Benchmark Karşılaştırma Grafiği
+    if (comparisonChart) {
+      comparisonChart.data.labels = comparisonLabels;
+      comparisonChart.data.datasets[0].data = bbCompData;
+      comparisonChart.data.datasets[1].data = bmCompData;
+      // Tooltip gains'i de güncellemek için options'ı da güncellemek gerekebilir
+      comparisonChart.options.plugins.tooltip.callbacks.afterBody = (ctx) => {
+        const i = ctx[0].dataIndex;
+        const gain = gainsCompData[i] ? gainsCompData[i].toFixed(2) : 'N/A'; // gainsCompData'nın varlığını kontrol et
+        return `Kazanç: ${gain}%`;
+      };
+      comparisonChart.update();
+    } else {
+      comparisonChart = new Chart(document.getElementById('comparisonChart'), {
+        type: 'bar',
+        data: {
+          labels: comparisonLabels,
+          datasets: [
+            {
+              label: 'Battery Brain',
+              data: bbCompData,
+              backgroundColor: 'rgba(59, 130, 246, 0.6)'  // mavi
+            },
+            {
+              label: 'Benchmark',
+              data: bmCompData,
+              backgroundColor: 'rgba(107, 114, 128, 0.4)'  // gri
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                afterBody: (ctx) => {
+                  const i = ctx[0].dataIndex;
+                  const gain = gainsCompData[i] ? gainsCompData[i].toFixed(2) : 'N/A'; // gainsCompData'nın varlığını kontrol et
+                  return `Kazanç: ${gain}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Net Kar (₺)'
+              }
+            }
+          }
+        }
+      });
+    }
+    // Grafik güncellendikten/oluşturulduktan sonra yükleniyor kutusunu gizle
+    if (typeof hideLoadingOverlay === 'function') {
+        hideLoadingOverlay();
+    }
+  }
+
+  function formatCurrency(value) {
+    return new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency: 'TRY',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+  }
+
+  // Finansal Özet (Üst kısım) güncelleyen fonksiyon
+  function updateFinancialSummaries(netProfit, revenue, batteryCost, penalty) {
+    document.getElementById('totalNetProfit').innerText = formatCurrency(netProfit);
+    document.getElementById('totalRevenue').innerText = formatCurrency(revenue);
+    document.getElementById('totalPenalty').innerText = formatCurrency(penalty);
+  }
+
+  // Karşılaştırma Özeti (Alt kısım) güncelleyen fonksiyon - YENİ FONKSİYON
+  function updateComparisonSummaries(bbTotals, bmTotals) {
+      // Battery Brain Toplamları
+      document.getElementById('bbTotalProfit').innerText = formatCurrency(bbTotals.net_profit);
+      document.getElementById('bbDARevenue').innerText = formatCurrency(bbTotals.DA_revenue);
+      document.getElementById('bbIDRevenue').innerText = formatCurrency(bbTotals.ID_revenue);
+      document.getElementById('bbIDCosts').innerText = formatCurrency(bbTotals.id_costs);
+      document.getElementById('bbPenalty').innerText = formatCurrency(bbTotals.penalty);
+
+      // Benchmark Toplamları
+      document.getElementById('bmTotalProfit').innerText = formatCurrency(bmTotals.net_profit);
+      document.getElementById('bmDARevenue').innerText = formatCurrency(bmTotals.DA_revenue);
+      document.getElementById('bmIDRevenue').innerText = formatCurrency(bmTotals.ID_revenue);
+      document.getElementById('bmIDCosts').innerText = formatCurrency(bmTotals.id_costs);
+      document.getElementById('bmPenalty').innerText = formatCurrency(bmTotals.penalty);
+
+      // Kazanç Farkı
+      const profitDiff = bbTotals.net_profit - bmTotals.net_profit;
+      const profitDiffPercentage = (bmTotals.net_profit !== 0) ? (profitDiff / Math.abs(bmTotals.net_profit) * 100) : 0;
+
+      document.getElementById('profitDifference').innerText = formatCurrency(profitDiff);
+      document.getElementById('profitDifferencePercentage').innerText = `(${profitDiffPercentage.toFixed(1)}%)`;
+  }
+
+
+  function filterData(mode) {
+  const now = new Date();
+  let startDate;
+
+  if (mode === 'current') {
+    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Günlük grafik verileri
+    const filteredLabels = [];
+    const filteredProfits = [];
+    const filteredCycles = [];
+
+    Object.entries(dailyDataAggregated).forEach(([dateStr, metrics]) => {
+      const date = new Date(dateStr);
+      if (date >= startDate && date <= now) {
+        filteredLabels.push(dateStr);
+        filteredProfits.push(metrics.net_profit);
+        filteredCycles.push(metrics.total_cycle_normalized);
+      }
+    });
+
+    const comparisonFilteredLabels = comparisonLabelsDaily.filter(label => {
+      const date = new Date(label.split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    });
+    const comparisonFilteredBBProfits = bbProfitsDaily.filter((_, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    });
+    const comparisonFilteredBMProfits = bmProfitsDaily.filter((_, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    });
+    const comparisonFilteredGains = gainsDaily.filter((_, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    });
+
+    createOrUpdateCharts(
+      filteredLabels,
+      filteredProfits,
+      filteredCycles,
+      comparisonFilteredLabels,
+      comparisonFilteredBBProfits,
+      comparisonFilteredBMProfits,
+      comparisonFilteredGains
+    );
+
+    // Ana Finansal Özet
+    const filteredDataForTotals = data.filter(row => {
+      const dateStr = row.datetime || row.date;
+      if (!dateStr) return false;
+      const d = new Date(dateStr);
+      return d >= startDate && d <= now;
+    });
+
+    updateFinancialSummaries(
+      filteredProfits.reduce((a, b) => a + b, 0),
+      filteredDataForTotals.reduce((sum, r) => sum + (r.DA_revenue || 0) + (r.ID_revenue || 0), 0),
+      filteredDataForTotals.reduce((sum, r) => sum + (r.battery_cost || 0), 0),
+      filteredDataForTotals.reduce((sum, r) => sum + (r.penalty || 0), 0)
+    );
+
+    // Günlük detaylı karşılaştırma özeti
+    const bbCurrentTotals = {
+      net_profit: filteredDataForTotals.reduce((sum, r) => sum + (r.net_profit || 0) + (r.battery_cost || 0), 0),
+      DA_revenue: filteredDataForTotals.reduce((sum, r) => sum + (r.DA_revenue || 0), 0),
+      ID_revenue: filteredDataForTotals.reduce((sum, r) => sum + (r.ID_revenue || 0), 0),
+      id_costs: filteredDataForTotals.reduce((sum, r) => sum + (r.id_costs || 0), 0),
+      battery_cost: filteredDataForTotals.reduce((sum, r) => sum + (r.battery_cost || 0), 0),
+      penalty: filteredDataForTotals.reduce((sum, r) => sum + (r.penalty || 0), 0)
+    };
+
+    const bmCurrentTotals = {
+  net_profit: comparisonFilteredBMProfits.reduce((a, b) => a + b, 0),
+  DA_revenue: dailyMetrics
+    .filter((d, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    })
+    .reduce((sum, d) => sum + (d.bm_DA_revenue || 0), 0),
+
+  ID_revenue: dailyMetrics
+    .filter((d, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    })
+    .reduce((sum, d) => sum + (d.bm_ID_revenue || 0), 0),
+
+  id_costs: dailyMetrics
+    .filter((d, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    })
+    .reduce((sum, d) => sum + (d.bm_id_costs || 0), 0),
+
+  battery_cost: dailyMetrics
+    .filter((d, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    })
+    .reduce((sum, d) => sum + (d.bm_battery_cost || 0), 0),
+
+  penalty: dailyMetrics
+    .filter((d, i) => {
+      const date = new Date(comparisonLabelsDaily[i].split('.').reverse().join('-'));
+      return date >= startDate && date <= now;
+    })
+    .reduce((sum, d) => sum + (d.bm_penalty || 0), 0)
+};
+
+
+    updateComparisonSummaries(bbCurrentTotals, bmCurrentTotals);
+
+  } else {
+    // 'ytd' veya 'all'
+    startDate = (mode === 'ytd') ? new Date(now.getFullYear(), 0, 1) : new Date('2024-01-01');
+
+    const relevantBBMonths = monthlyMetrics.filter(d => new Date(d.month + '-01') >= startDate);
+    const relevantBMMonths = monthlyMetricsBenchmark.filter(d => new Date(d.month + '-01') >= startDate);
+
+    const labels = relevantBBMonths.map(d => d.month);
+    const bbProfits = relevantBBMonths.map(d => d.net_profit || 0);
+    const bmProfits = relevantBMMonths.map(d =>
+      (d.DA_revenue || 0) + (d.ID_revenue || 0) - (d.id_costs || 0) - (d.penalty || 0)
+    );
+    const cycles = relevantBBMonths.map(d => ((d.battery_cost || 0)) / (2 * 62));
+    const gainsMonthlyFiltered = bbProfits.map((val, i) => {
+      const bench = bmProfits[i] || 0.0001;
+      return ((val - bench) / Math.abs(bench)) * 100;
+    });
+
+    createOrUpdateCharts(
+      labels,
+      bbProfits,
+      cycles,
+      labels,
+      bbProfits,
+      bmProfits,
+      gainsMonthlyFiltered
+    );
+
+    updateFinancialSummaries(
+      bbProfits.reduce((a, b) => a + b, 0),
+      relevantBBMonths.reduce((sum, r) => sum + (r.DA_revenue || 0) + (r.ID_revenue || 0), 0),
+      relevantBBMonths.reduce((sum, r) => sum + (r.battery_cost || 0), 0),
+      relevantBBMonths.reduce((sum, r) => sum + (r.penalty || 0), 0)
+    );
+
+    const bbAggregated = {
+      net_profit: bbProfits.reduce((a, b) => a + b, 0),
+      DA_revenue: relevantBBMonths.reduce((sum, r) => sum + (r.DA_revenue || 0), 0),
+      ID_revenue: relevantBBMonths.reduce((sum, r) => sum + (r.ID_revenue || 0), 0),
+      id_costs: relevantBBMonths.reduce((sum, r) => sum + (r.id_costs || 0), 0),
+      battery_cost: relevantBBMonths.reduce((sum, r) => sum + (r.battery_cost || 0), 0),
+      penalty: relevantBBMonths.reduce((sum, r) => sum + (r.penalty || 0), 0)
+    };
+
+    const bmAggregated = {
+      net_profit: bmProfits.reduce((a, b) => a + b, 0),
+      DA_revenue: relevantBMMonths.reduce((sum, r) => sum + (r.DA_revenue || 0), 0),
+      ID_revenue: relevantBMMonths.reduce((sum, r) => sum + (r.ID_revenue || 0), 0),
+      id_costs: relevantBMMonths.reduce((sum, r) => sum + (r.id_costs || 0), 0),
+      battery_cost: relevantBMMonths.reduce((sum, r) => sum + (r.battery_cost || 0), 0),
+      penalty: relevantBMMonths.reduce((sum, r) => sum + (r.penalty || 0), 0)
+    };
+
+    updateComparisonSummaries(bbAggregated, bmAggregated);
+  }
+}
+
+
+  // Sayfa yüklendiğinde varsayılan olarak "Geçerli Ay"ı göster
+  document.addEventListener("DOMContentLoaded", function () {
+    // Eğer hiç veri yoksa, yükleniyor kutusunu hemen gizle
+    if (data.length === 0) {
+        if (typeof hideLoadingOverlay === 'function') { // hideLoadingOverlay fonksiyonunun varlığını kontrol et
+            hideLoadingOverlay();
+        }
+        return;
+    }
+    filterData('current');
+  });
+</script>
+
+{% endblock %}

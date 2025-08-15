@@ -1,0 +1,80 @@
+\ Model OBJ_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+\ Signature: 0x7a6ee9b9cd3ad29e
+Maximize
+ 
+Subject To
+ _C197: - d_da_bat_28 - d_da_prod_28 + q_committed_28 = 0
+ _C198: d_da_bat_28 + d_da_prod_28 + d_id_bat_28 + d_id_prod_28 <= 61.8
+ _C199: d_da_prod_28 >= 17.0481152366
+ _C201: - charge_28 + d_da_bat_28 - d_id_prod_28 + x_ceza_28 + x_id_28
+   - q_committed_28 = -68.1924609464
+ _C204: - d_da_bat_29 - d_da_prod_29 + q_committed_29 = 0
+ _C205: d_da_bat_29 + d_da_prod_29 + d_id_bat_29 + d_id_prod_29 <= 61.8
+ _C208: - charge_29 + d_da_bat_29 - d_id_prod_29 + x_ceza_29 + x_id_29
+   - q_committed_29 = -81.7233252083
+ _C209: d_da_bat_29 + d_id_bat_29 + 61.8 is_charging_29 <= 61.8
+ _C211: - d_da_bat_30 - d_da_prod_30 + q_committed_30 = 0
+ _C212: d_da_bat_30 + d_da_prod_30 + d_id_bat_30 + d_id_prod_30 <= 61.8
+ _C215: - charge_30 + d_da_bat_30 - d_id_prod_30 + x_ceza_30 + x_id_30
+   - q_committed_30 = -71.9493666657
+ _C217: charge_30 - 61.8 is_charging_30 <= 0
+ _C218: - d_da_bat_31 - d_da_prod_31 + q_committed_31 = 0
+ _C219: d_da_bat_31 + d_da_prod_31 + d_id_bat_31 + d_id_prod_31 <= 61.8
+ _C222: - charge_31 + d_da_bat_31 - d_id_prod_31 + x_ceza_31 + x_id_31
+   - q_committed_31 = -72.455645516
+ _C224: charge_31 - 61.8 is_charging_31 <= 0
+ _C225: - d_da_bat_32 - d_da_prod_32 + q_committed_32 = 0
+ _C226: d_da_bat_32 + d_da_prod_32 + d_id_bat_32 + d_id_prod_32 <= 61.8
+ _C229: - charge_32 + d_da_bat_32 - d_id_prod_32 + x_ceza_32 + x_id_32
+   - q_committed_32 = -67.6680912246
+ _C231: charge_32 - 61.8 is_charging_32 <= 0
+ _C398: - 0.97 charge_28 + 1.03092783505 d_da_bat_28
+   + 1.03092783505 d_id_bat_28 - soc_28 + soc_29 = 0
+ _C400: - 0.97 charge_29 + 1.03092783505 d_da_bat_29
+   + 1.03092783505 d_id_bat_29 - soc_29 + soc_30 = 0
+ _C402: - 0.97 charge_30 + 1.03092783505 d_da_bat_30
+   + 1.03092783505 d_id_bat_30 - soc_30 + soc_31 = 0
+ _C404: - 0.97 charge_31 + 1.03092783505 d_da_bat_31
+   + 1.03092783505 d_id_bat_31 - soc_31 + soc_32 = 0
+ _C406: - 0.97 charge_32 + 1.03092783505 d_da_bat_32
+   + 1.03092783505 d_id_bat_32 - soc_32 + soc_33 = 0
+Bounds
+ charge_28 free
+ charge_29 free
+ charge_30 free
+ charge_31 free
+ charge_32 free
+ d_da_bat_28 free
+ d_da_bat_29 free
+ d_da_bat_30 free
+ d_da_bat_31 free
+ d_da_bat_32 free
+ d_da_prod_28 free
+ d_da_prod_29 free
+ d_da_prod_30 free
+ d_da_prod_31 free
+ d_da_prod_32 free
+ d_id_bat_28 free
+ d_id_bat_29 free
+ d_id_bat_30 free
+ d_id_bat_31 free
+ d_id_bat_32 free
+ d_id_prod_29 free
+ d_id_prod_30 free
+ d_id_prod_31 free
+ d_id_prod_32 free
+ q_committed_28 free
+ q_committed_29 free
+ q_committed_30 free
+ q_committed_31 free
+ q_committed_32 free
+ soc_28 >= 8
+ soc_29 free
+ soc_30 free
+ soc_31 free
+ soc_32 free
+ -infinity <= soc_33 <= 40.2
+Binaries
+ is_charging_29 is_charging_30 is_charging_31 is_charging_32
+End

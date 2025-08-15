@@ -1,0 +1,36 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white px-6 py-4 flex justify-between items-center border-b shadow-md">
+  <!-- Sol Taraftaki Logo / Metin -->
+  <div class="text-xl font-bold text-emerald-700">
+    {% if request.url.path == '/' %}
+      Grentis
+    {% elif user == 'akyelres' %}
+      Battery Brain Flex <span class="text-blue-500">⚡</span>
+    {% elif user == 'suloglures' %}
+      Battery Brain Core <span class="text-amber-500">⚡</span>
+    {% else %}
+      Grentis
+    {% endif %}
+  </div>
+
+  <!-- Simülasyon zamanı (sadece login yapılmış ve index değilse) -->
+  {% if user and request.url.path != '/' %}
+  <div class="text-sm text-gray-600 italic" id="current-time">
+    Simülasyon Zamanı:
+    <span id="virtualNow" class="font-semibold text-black">Yükleniyor...</span>
+  </div>
+  {% endif %}
+
+  <!-- Menü -->
+  <ul class="flex gap-6 text-sm font-medium text-gray-800 items-center">
+    {% if user and request.url.path != '/' %}
+      <li class="navbar-nav-item"><a href="/dashboard" class="hover:underline">📊 Dashboard</a></li>
+      <li class="navbar-nav-item"><a href="/optimization" class="hover:underline">⚙️ Optimizasyon</a></li>
+      <li class="navbar-nav-item"><a href="/performance" class="hover:underline">🧠 Performans</a></li>
+    {% endif %}
+    <li class="navbar-login-item">
+      <a href="{% if user %}/logout{% else %}/login{% endif %}" class="hover:underline text-emerald-700 font-bold">
+        {% if user %}Çıkış Yap{% else %}Giriş Yap{% endif %}
+      </a>
+    </li>
+  </ul>
+</nav>

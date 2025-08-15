@@ -1,0 +1,25 @@
+\ Model OBJ_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+\ Signature: 0x69ff21a81ed93c33
+Maximize
+ 
+Subject To
+ _C11: - charge_0 - d_id_prod_0 + prod_surplus_0 = 0
+ _C13: d_da_bat_0 + d_id_bat_0 + 61.8 is_charging_0 <= 61.8
+ _C14: charge_0 - 61.8 is_charging_0 <= 0
+ _C2: d_da_bat_0 + d_da_prod_0 + d_id_bat_0 + d_id_prod_0 <= 61.8
+ _C5: d_da_bat_0 + d_da_prod_0 - prod_deficit_0 + prod_surplus_0 = 69.7722
+ _C673: soc_0 = 32.7958319503
+ _C675: - 0.97 charge_0 + 1.03092783505 d_da_bat_0
+   + 1.03092783505 d_id_bat_0 - soc_0 + soc_1 = 0
+Bounds
+ charge_0 free
+ d_da_bat_0 free
+ d_da_prod_0 free
+ d_id_prod_0 free
+ prod_surplus_0 free
+ soc_0 free
+ -infinity <= soc_1 <= 40.2
+Binaries
+ is_charging_0
+End

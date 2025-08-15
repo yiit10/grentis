@@ -1,0 +1,979 @@
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 10:43:03 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.00 seconds
+OBJ: 3553 rows, 894 columns, 14209 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 894 columns and 14209 nonzeros
+Model fingerprint: 0x0dd7e40f
+Variable types: 798 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [4e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 267 rows and 221 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Unable to retrieve attribute 'X'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 10:43:15 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3553 rows, 894 columns, 14209 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 894 columns and 14209 nonzeros
+Model fingerprint: 0x0dd7e40f
+Variable types: 798 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [4e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 267 rows and 221 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 267 rows and 222 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3531         -         0      1182         -           0s
+Numerical troubles encountered during IIS computation
+        5         5         5         0         0         0           0s
+
+IIS computed: 5 constraints, 0 bounds
+IIS runtime: 0.03 seconds (0.01 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 11:12:15 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3505 rows, 889 columns, 14161 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3505 rows, 889 columns and 14161 nonzeros
+Model fingerprint: 0xb5be8da4
+Variable types: 793 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 3089 rows and 472 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Unable to retrieve attribute 'X'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 11:12:21 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.02 seconds
+OBJ: 3505 rows, 889 columns, 14161 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3505 rows, 889 columns and 14161 nonzeros
+Model fingerprint: 0xb5be8da4
+Variable types: 793 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 3089 rows and 472 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 3093 rows and 476 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3505         -         0      1177         -           0s
+        7         7         7         0         0         0           0s
+
+IIS computed: 7 constraints, 0 bounds
+IIS runtime: 0.23 seconds (0.10 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 11:58:47 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3553 rows, 889 columns, 14257 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 889 columns and 14257 nonzeros
+Model fingerprint: 0x5627e146
+Variable types: 793 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 3089 rows and 477 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Unable to retrieve attribute 'X'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 11:58:49 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3553 rows, 889 columns, 14257 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 889 columns and 14257 nonzeros
+Model fingerprint: 0x5627e146
+Variable types: 793 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 3089 rows and 477 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 3090 rows and 480 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3530         -         0      1177         -           0s
+        6         6         6         1         1         1           0s
+
+IIS computed: 6 constraints, 1 bounds
+IIS runtime: 0.02 seconds (0.02 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 12:06:50 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.00 seconds
+OBJ: 3553 rows, 889 columns, 14209 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 889 columns and 14209 nonzeros
+Model fingerprint: 0xe658b318
+Variable types: 793 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 3137 rows and 472 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 3141 rows and 476 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.02 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3530         -         0      1177         -           0s
+        7         7         7         0         0         0           0s
+
+IIS computed: 7 constraints, 0 bounds
+IIS runtime: 0.10 seconds (0.07 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 12:29:48 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3553 rows, 889 columns, 14185 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 889 columns and 14185 nonzeros
+Model fingerprint: 0x7976f52f
+Variable types: 793 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 938 rows and 481 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 937 rows and 506 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.02 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3530         -         0      1177         -           0s
+        6         6         6         0         0         0           0s
+
+IIS computed: 6 constraints, 0 bounds
+IIS runtime: 0.16 seconds (0.08 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 15:15:24 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3553 rows, 1058 columns, 15523 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3553 rows, 1058 columns and 15523 nonzeros
+Model fingerprint: 0x94d1d78f
+Variable types: 962 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+02, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 1e+03]
+Presolve removed 711 rows and 386 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 711 rows and 416 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3535         -         0      1490         -           0s
+        3         3         3         1         1         1           0s
+
+IIS computed: 3 constraints, 1 bounds
+IIS runtime: 0.02 seconds (0.02 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 17:02:05 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file exante_debug.lp
+Reading time = 0.00 seconds
+OBJ: 768 rows, 672 columns, 2251 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 768 rows, 672 columns and 2251 nonzeros
+Model fingerprint: 0x1ada73d1
+Variable types: 576 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [4e+02, 4e+03]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e-02, 1e+03]
+Presolve removed 381 rows and 258 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 471 rows and 458 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0       768         -         0       624         -           0s
+        7         7         7         3         3         3           0s
+
+IIS computed: 7 constraints, 3 bounds
+IIS runtime: 0.05 seconds (0.02 work units)
+
+Wrote result file 'infeasible_ante.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Thu Jul 24 17:38:19 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file exante_debug.lp
+Reading time = 0.00 seconds
+OBJ: 768 rows, 672 columns, 2251 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 768 rows, 672 columns and 2251 nonzeros
+Model fingerprint: 0x1ada73d1
+Variable types: 576 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [4e+02, 4e+03]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e-02, 1e+03]
+Presolve removed 381 rows and 258 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 471 rows and 458 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0       768         -         0       624         -           0s
+        7         7         7         3         3         3           0s
+
+IIS computed: 7 constraints, 3 bounds
+IIS runtime: 0.05 seconds (0.02 work units)
+
+Wrote result file 'infeasible_ante.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Fri Jul 25 09:57:35 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3601 rows, 1038 columns, 15741 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3601 rows, 1038 columns and 15741 nonzeros
+Model fingerprint: 0x5d8bc7c0
+Variable types: 942 continuous, 96 integer (96 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [4e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [1e-02, 1e+03]
+Presolve removed 811 rows and 432 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 807 rows and 469 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.01 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3530         -         0      1470         -           0s
+        6         6         6         0         0         0           0s
+
+IIS computed: 6 constraints, 0 bounds
+IIS runtime: 0.12 seconds (0.07 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Fri Jul 25 12:30:53 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file expost_debug.lp
+Reading time = 0.01 seconds
+OBJ: 3217 rows, 841 columns, 14737 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 3217 rows, 841 columns and 14737 nonzeros
+Model fingerprint: 0x63608b8a
+Variable types: 793 continuous, 48 integer (48 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 6e+01]
+  Objective range  [1e+01, 4e+03]
+  Bounds range     [1e+00, 6e+01]
+  RHS range        [7e-15, 6e+01]
+Presolve removed 553 rows and 248 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 553 rows and 248 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      3147         -         0      1321         -           0s
+        5         5         5         2         2         2           0s
+
+IIS computed: 5 constraints, 2 bounds
+IIS runtime: 0.02 seconds (0.01 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Wed Aug  6 11:56:53 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file exante_debug.lp
+Reading time = 0.01 seconds
+OBJ: 435 rows, 481 columns, 1394 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 435 rows, 481 columns and 1394 nonzeros
+Model fingerprint: 0x8fe52e41
+Variable types: 433 continuous, 48 integer (48 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 6e+01]
+  Objective range  [6e+02, 4e+03]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [5e-02, 8e+01]
+Presolve removed 209 rows and 190 columns
+Presolve time: 0.02s
+
+Explored 0 nodes (0 simplex iterations) in 0.02 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 148 rows and 156 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0       435         -         0       482         -           0s
+       18        18        18         8         8         8           0s
+
+IIS computed: 18 constraints, 8 bounds
+IIS runtime: 0.18 seconds (0.02 work units)
+
+Wrote result file 'infeasible.ilp'
+
+
+Gurobi 12.0.2 (win64, gurobi_cl) logging started Fri Aug 15 10:58:02 2025
+
+Set parameter Username
+Set parameter LicenseID to value 2690428
+Set parameter LogFile to value "gurobi.log"
+Using license file C:\Users\HanEE\gurobi.lic
+Academic license - for non-commercial use only - expires 2026-07-24
+
+Gurobi Optimizer version 12.0.2 build v12.0.2rc0 (win64 - Windows 11.0 (26100.2))
+Copyright (c) 2025, Gurobi Optimization, LLC
+
+Read LP format model from file exante_debug.lp
+Reading time = 0.02 seconds
+OBJ: 435 rows, 481 columns, 1394 nonzeros
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+Optimize a model with 435 rows, 481 columns and 1394 nonzeros
+Model fingerprint: 0xe6923825
+Variable types: 433 continuous, 48 integer (48 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 6e+01]
+  Objective range  [6e+02, 4e+03]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [5e+00, 8e+01]
+Presolve removed 175 rows and 179 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Using Gurobi shared library C:\gurobi1202\win64\bin\gurobi120.dll
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-1255U, instruction set [SSE2|AVX|AVX2]
+Thread count: 10 physical cores, 12 logical processors, using up to 12 threads
+
+IIS computation: initial model status unknown, solving to determine model status
+Presolve removed 129 rows and 180 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.02 seconds (0.00 work units)
+Thread count was 1 (of 12 available processors)
+
+Solution count 0
+No other solutions better than -1e+100
+
+Model is infeasible
+Best objective -, best bound -, gap -
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0       435         -         0       482         -           0s
+       25        25        25        13        13        13           0s
+
+IIS computed: 25 constraints, 13 bounds
+IIS runtime: 0.06 seconds (0.01 work units)
+
+Wrote result file 'infeasible.ilp'
+
