@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Battery Brain{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 gap-6">
+
+    <div class="bg-white border rounded-2xl shadow p-6">
+        <h2 class="text-xl font-semibold text-black mb-4">GÖP Fiyatları (Gerçekleşen ve Tahmin)</h2>
+        <canvas id="priceChart"></canvas>
+    </div>
+
+    <div class="bg-white border rounded-2xl shadow p-6 mt-6">
+        <h2 class="text-xl font-semibold text-black mb-4">GİP Fiyatları (Gerçekleşen ve Tahmin)</h2>
+        <canvas id="gipChart"></canvas>
+    </div>
+
+    <div class="bg-white border rounded-2xl shadow p-6 mt-6">
+        <div class="flex justify-between items-center mb-4">
+  <h2 class="text-xl font-semibold text-black">Gerçek ve Tahmini Üretim</h2>
+  <div class="flex gap-2">
+  <button id="customForecastBtn" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">📥 Tahminini Ekle</button>
+  <button id="clearForecastBtn" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">🗑 Tahmini Temizle</button>
+</div>
+
+</div>
+        <canvas id="productionChart"></canvas>
+    </div>
+
+<div id="customForecastModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+    <h3 class="text-lg font-semibold mb-4">Kendi Tahminini Gir</h3>
+    <form id="customForecastForm" class="space-y-3 max-h-96 overflow-y-auto">
+      </form>
+    <div class="mt-4 flex justify-end gap-2">
+      <button type="button" id="closeModal" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">İptal</button>
+      <button type="submit" form="customForecastForm" class="px-4 py-1 bg-green-600 text-white rounded hover:bg-green-700">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Sayfa yüklenir yüklenmez yükleniyor kutusunu göster
+if (typeof showLoadingOverlay === 'function') {
+    showLoadingOverlay();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const virtualNow = new Date("{{ virtual_now }}");
+    // --- GÖP ---
+    const priceData = {{ price_data|safe }};
+    const priceForecastData = {{ price_forecast_data|safe }};
+    const fullLabels = priceForecastData.labels;
+
+    const actualDataMap = new Map(priceData.labels.map((label, i) => [label, priceData.values[i]]));
+    const forecastDataMap = new Map(priceForecastData.labels.map((label, i) => [label, priceForecastData.values[i]]));
+
+    const actualValues = fullLabels.map(label => actualDataMap.get(label) ?? null);
+    const forecastValues = fullLabels.map(label => forecastDataMap.get(label) ?? null);
+
+    new Chart(document.getElementById('priceChart'), {
+        type: 'line',
+        data: {
+            labels: fullLabels,
+            datasets: [
+                {
+                    label: 'Gerçekleşen GÖP Fiyatı (₺)',
+                    data: actualValues,
+                    borderColor: '#10B981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    spanGaps: false
+                },
+                {
+                    label: 'Tahmin Edilen GÖP Fiyatı (₺)',
+                    data: forecastValues,
+                    borderColor: '#3B82F6',
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: { display: true, text: '₺ / MWh' }
+                },
+                x: {
+                    ticks: { maxRotation: 90, minRotation: 45 }
+                }
+            },
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { mode: 'index', intersect: false }
+            }
+        }
+    });
+
+    // --- GİP ---
+    const idData = {{ price_id_data|safe }};
+    const idForecastData = {{ price_id_forecast_data|safe }};
+    const fullLabelsGIP = idForecastData.labels;
+
+    const realMapGIP = new Map(idData.labels.map((l, i) => [l, idData.values[i]]));
+    const realValuesGIP = fullLabelsGIP.map(l => realMapGIP.get(l) ?? null);
+    const forecastValuesGIP = fullLabelsGIP.map((l, i) => idForecastData.values[i]);
+
+    new Chart(document.getElementById('gipChart'), {
+        type: 'line',
+        data: {
+            labels: fullLabelsGIP,
+            datasets: [
+                {
+                    label: 'Gerçekleşen GİP Fiyatı (₺)',
+                    data: realValuesGIP,
+                    borderColor: '#F59E0B',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    spanGaps: false
+                },
+                {
+                    label: 'Tahmin Edilen GİP Fiyatı (₺)',
+                    data: forecastValuesGIP,
+                    borderColor: '#6366F1',
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: { display: true, text: '₺ / MWh' }
+                },
+                x: {
+                    ticks: { maxRotation: 90, minRotation: 45 }
+                }
+            }
+        }
+    });
+
+    // --- ÜRETİM ---
+const prodData = {{ production_data | safe }};
+console.log("📊 Üretim datası (frontend):", prodData);
+
+// Tahmin verisine göre label seti oluştur
+const fullProdLabels = prodData.meteomatics.map(d =>
+  new Date(d.x).toLocaleString("tr-TR", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit"
+  })
+);
+
+// Label’lara göre verileri hizala
+const valueMap = (arr) => {
+  const map = new Map(arr.map(d => [
+    new Date(d.x).toLocaleString("tr-TR", {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit"
+    }),
+    d.y
+  ]));
+  return fullProdLabels.map(label => map.get(label) ?? null);
+};
+
+// Dataset’leri hizalı olarak al
+const realValuesAligned = valueMap(prodData.real);
+const meteomaticsValuesAligned = valueMap(prodData.meteomatics);
+const meteologicaValuesAligned = valueMap(prodData.meteologica);
+const customValuesAligned = valueMap(prodData.custom);
+
+// Grafik dataset’lerini oluştur
+const productionDatasets = [
+  {
+    label: 'Gerçek Üretim (MWh)',
+    data: realValuesAligned,
+    borderColor: '#10B981',
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    fill: true,
+    tension: 0.4,
+    spanGaps: false
+  },
+  {
+    label: 'Meteomatics Tahmini',
+    data: meteomaticsValuesAligned,
+    borderColor: '#3B82F6',
+    borderDash: [5, 5],
+    fill: false,
+    tension: 0.4
+  },
+  {
+    label: 'Meteologica Tahmini',
+    data: meteologicaValuesAligned,
+    borderColor: '#F97316',
+    borderDash: [2, 4],
+    fill: false,
+    tension: 0.4
+  }
+];
+
+if (prodData.custom && prodData.custom.length > 0) {
+  productionDatasets.push({
+    label: 'Kullanıcı Tahmini',
+    data: customValuesAligned,
+    borderColor: '#EF4444',
+    borderDash: [1, 2],
+    fill: false,
+    tension: 0.4,
+    pointRadius: 3,
+    pointBackgroundColor: '#EF4444'
+  });
+}
+
+// Chart.js grafiğini oluştur
+new Chart(document.getElementById('productionChart'), {
+  type: 'line',
+  data: {
+    labels: fullProdLabels,
+    datasets: productionDatasets
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: false,
+        title: { display: true, text: 'MWh' }
+      },
+      x: {
+        ticks: { maxRotation: 90, minRotation: 45 }
+      }
+    },
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: { mode: 'index', intersect: false }
+    }
+  }
+});
+
+
+        // === KULLANICI TAHMİNİ MODALI ===
+    const btn = document.getElementById("customForecastBtn");
+    const modal = document.getElementById("customForecastModal");
+    const closeBtn = document.getElementById("closeModal");
+    const form = document.getElementById("customForecastForm");
+
+    const now = new Date();
+
+    // ADD THESE LINES RIGHT HERE:
+    closeBtn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+    });
+
+    // Optional: Close modal when clicking outside
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.classList.add("hidden");
+        }
+    });
+
+        btn.addEventListener("click", () => {
+            if (!prodData.real.length) {
+        alert("Üretim verisi eksik, tahmin girişi yapılamaz.");
+        return;
+      }
+        const modalStart = new Date(virtualNow);
+        modalStart.setMinutes(0, 0, 0);
+        modalStart.setHours(modalStart.getHours() + 1);
+
+        const modalEnd = new Date(prodData.real[prodData.real.length - 1].x);
+        console.log("modalStart:", modalStart.toISOString());
+    console.log("modalEnd:", modalEnd.toISOString());
+
+
+        const futureLabels = [];
+        while (modalStart <= modalEnd) {
+            futureLabels.push(new Date(modalStart));
+            modalStart.setHours(modalStart.getHours() + 1);
+        }
+
+        const customMap = new Map(prodData.custom.map(d => [d.x, d.y]));
+
+    form.innerHTML = ""; // temizle
+    futureLabels.forEach(dt => {
+        const label = dt.toLocaleString("tr-TR", {
+            day: "2-digit",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+        const iso = dt.toISOString();
+
+        const existingVal = customMap.has(iso) ? `value="${customMap.get(iso)}"` : "";
+
+        form.innerHTML += `
+            <div class="flex justify-between items-center py-1">
+                <label class="text-sm w-2/3">${label}</label>
+                <input type="number" step="0.1" name="${iso}" ${existingVal} class="w-1/3 px-2 py-1 border rounded" />
+            </div>
+        `;
+    });
+
+        modal.classList.remove("hidden");
+    });
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const inputs = form.querySelectorAll("input");
+            const data = {};
+            inputs.forEach(input => {
+                if (input.value) data[input.name] = parseFloat(input.value);
+            });
+
+            fetch("/custom-forecast", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).then(res => {
+                if (res.ok) {
+                    alert("Tahmin kaydedildi!");
+                    modal.classList.add("hidden");
+                    location.reload();
+                } else {
+                    alert("Hata oluştu.");
+                }
+            });
+        });
+    const clearBtn = document.getElementById("clearForecastBtn");
+    clearBtn.addEventListener("click", () => {
+        if (confirm("Kullanıcı tahminini silmek istediğine emin misin?")) {
+            fetch("/clear-custom-forecast", {
+                method: "POST"
+            }).then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            });
+        }
+    });
+
+    // Tüm grafikler yüklendikten ve çizildikten sonra yükleniyor kutusunu gizle
+    if (typeof hideLoadingOverlay === 'function') { // hideLoadingOverlay fonksiyonunun varlığını kontrol et
+        hideLoadingOverlay();
+    }
+});
+
+</script>
+
+{% endblock %}

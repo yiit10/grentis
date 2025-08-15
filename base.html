@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Battery Brain{% endblock %}</title>
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Yükleniyor kutusunu varsayılan olarak gizle */
+        #loadingOverlay.hidden {
+            display: none;
+        }
+
+        /* Sadece landing sayfası için özel stiller */
+        .landing-page-body .navbar-nav-item {
+            display: none;
+        }
+        .landing-page-body .navbar-login-item {
+            display: list-item !important;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800 {% block body_classes %}{% endblock %}">
+
+<!-- Yükleniyor Overlay -->
+<div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-800 text-white p-6 rounded-lg shadow-xl flex flex-col items-center">
+        <svg class="animate-spin -ml-1 mr-3 h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="mt-4 text-lg font-medium">Veriler alınıyor, lütfen bekleyiniz...</p>
+    </div>
+</div>
+
+<!-- Navbar -->
+{% include "navbar.html" %}
+
+<!-- Ana İçerik -->
+<main class="{% if 'landing-page-body' in self.body_classes() %}pt-0{% else %}pt-24{% endif %} pb-6">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Zaman, Loading gibi JS fonksiyonları -->
+<script>
+    function getVirtualNow() {
+        const now = new Date();
+        now.setDate(now.getDate() - 3);
+        return now;
+    }
+
+    function updateClock() {
+        const virtualNow = getVirtualNow();
+        const options = {
+            timeZone: "Europe/Istanbul",
+            hour12: false,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const currentTimeElement = document.getElementById("current-time");
+        if (currentTimeElement) {
+            currentTimeElement.textContent = "⏱ Simülasyon Zamanı: " + virtualNow.toLocaleString("tr-TR", options).replace(",", " -");
+        }
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function hideLoadingOverlay() {
+        document.getElementById('loadingOverlay')?.classList.add('hidden');
+    }
+
+    function showLoadingOverlay() {
+        document.getElementById('loadingOverlay')?.classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Bir Hata Oluştu{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex flex-col justify-center items-center text-center py-12 px-6">
+  <h1 class="text-4xl font-bold text-red-600 mb-4">😵‍💫 Bir Hata Oluştu</h1>
+  <p class="text-lg text-gray-700 mb-6">
+    Üzgünüz, simülasyon sırasında beklenmedik bir sorun oluştu.
+  </p>
+  {% if error_message %}
+    <div class="bg-red-100 text-red-800 p-4 rounded-xl max-w-2xl mb-6">
+      <pre class="whitespace-pre-wrap text-sm font-mono">{{ error_message }}</pre>
+    </div>
+  {% endif %}
+  <a href="/dashboard" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+    Ana Sayfaya Dön
+  </a>
+</div>
+{% endblock %}
